@@ -5,4 +5,7 @@ Provides up-to-date data about Coronavirus outbreak. Includes numbers about conf
 # Available data-sources:
 Currently only 1 data-source is available to retrieve the data:
 
-- https://epidemic-stats.com/coronavirus/ - All statistics data about coronavirus COVID-19 comes from World Health Organization and Johns Hopkins CSSE. Charts includes number of infected, deaths and recovered. 
+- https://epidemic-stats.com/coronavirus/ -
+--------------------------------------------
+**All statistics data about coronavirus COVID-19 comes from World Health Organization and Johns Hopkins CSSE.
+Charts includes number of infected, deaths and recovered.**
