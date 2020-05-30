@@ -16,5 +16,8 @@ setup(
 	long_description_content_type='text/markdown',
 	url='https://github.com/r0eilevi/coronavirus-api',
 	packages=find_packages(),
-	install_requires=requirements
+	install_requires=[
+          'requests',
+          'beautifulsoup4',
+      ]
 )
