@@ -1,4 +1,3 @@
-# All results is right to today (5/30/2020)
 # list of supported countries can be printed out | print(instance.countries)
 
 import coroapi
