@@ -41,4 +41,4 @@ print(israel_total_deathes)
 << Deaths: 284
 ```
 
-> if there's any problem, please let me know - roeil4939@gmail.com
+> If there's any problem, Please let me know - roeil4939@gmail.com
