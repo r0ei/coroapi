@@ -11,6 +11,12 @@ Currently only 1 data-source is available to retrieve the data:
 
 *The module emulates the browser actions by sending requests to the site server. The module doesn't load any type of files while sending requests to the site and that makes it faster. The module is scraping the website source code, and returning the final result.*
 
+## Features
+
+- Provides Fast, and Up-to-Date data about the Coronavirus outbreak
+- Can output with text or not
+- A lot of supported countries (up to 100)
+
 ## Installation
 - `pip install coroapi`
 1. Make sure you have [python3 installed and on your PATH](https://docs.python-guide.org/starting/installation/)
