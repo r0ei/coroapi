@@ -7,6 +7,10 @@ Currently only 1 data-source is available to retrieve the data:
 
 - [Epidemic Stats](https://epidemic-stats.com/coronavirus/) - **All statistics data about coronavirus COVID-19 comes from World Health Organization and Johns Hopkins CSSE. Charts includes number of infected, deaths and recovered.**
 
+## How it works
+
+**The module emulates the browser actions by sending requests to the site server. The module doesn't load any type of files while sending requests to the site and that makes it faster. The module is scraping the website source code, and returning the final result.**
+
 ## Installation
 - `pip install coroapi`
 1. Make sure you have [python3 installed and on your PATH](https://docs.python-guide.org/starting/installation/)
