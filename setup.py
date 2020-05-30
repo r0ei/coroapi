@@ -8,7 +8,7 @@ setup(
   author = 'Roi Levi',
   author_email = 'roeil4939@gmail.com',
   url = 'https://github.com/r0eilevi/coronavirus-api',
-  download_url = 'https://github.com/user/reponame/archive/v_01.tar.gz', # change this
+  download_url = 'https://github.com/r0eilevi/coronavirus-api/archive/v1.00.tar.gz', # change this
   keywords = ['api', 'corona', 'virus', 'fast', 'covid19', 'up-to-date'],
   install_requires=[
           'requests',
