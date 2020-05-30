@@ -29,7 +29,7 @@ Currently only 1 data-source is available to retrieve the data:
 
 import coroapi
 
-instance = Corona()
+instance = coroapi.Corona()
 usa_infected_people = instance.get_country_infected('usa', text=False)
 print(usa_infected_people)
 
