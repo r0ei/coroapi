@@ -3,9 +3,6 @@ from setuptools import setup, find_packages
 with open('README.md', 'r') as f:
 	long_description = f.read()
 
-with open('requirements.txt') as f:
-	requirements = f.read().splitlines()
-
 setup(
 	name='coroapi',
 	version='1.00',
