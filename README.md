@@ -20,7 +20,6 @@ Currently only 1 data-source is available to retrieve the data:
 ## Installation
 - `pip install coroapi`
 1. Make sure you have [python3 installed and on your PATH](https://docs.python-guide.org/starting/installation/)
-2. Make sure you download the [requirements.txt](https://raw.githubusercontent.com/r0eilevi/coronavirus-api/master/requirements.txt) file
 
 ## Simple Usage
 
