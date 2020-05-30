@@ -1,4 +1,4 @@
-   #                                          Covid-19 Tracker API
+   # Covid-19 Tracker API :microbe:
 
 Provides up-to-date data about Coronavirus outbreak. Includes numbers about confirmed cases, deaths and recovered.
 
