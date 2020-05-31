@@ -48,4 +48,7 @@ print(highest_country_cases)
 << ['1']
 ```
 
-> If there's any problem, Please let me know - roeil4939@gmail.com
+> If there's any problem:
+
+- **Email - roeil4939@gmail.com**
+- **Post issue post on the [Issues tab](https://github.com/r0eilevi/coronavirus-api/issues)**
