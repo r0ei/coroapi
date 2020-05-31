@@ -3,9 +3,11 @@
 Provides up-to-date data about Coronavirus outbreak. Includes numbers about confirmed cases, deaths and recovered.
 
 ## Available data-sources:
-Currently only 1 data-source is available to retrieve the data:
+Currently only 2 data-sources is available to retrieve the data:
 
 - [Epidemic Stats](https://epidemic-stats.com/coronavirus/) - **All statistics data about coronavirus COVID-19 comes from World Health Organization and Johns Hopkins CSSE. Charts includes number of infected, deaths and recovered.**
+
+- [Virusncov](https://virusncov.com/) - **All statistics data about coronavirus COVID-19 comes from World Health Organization**
 
 ## How it works
 
@@ -33,12 +35,17 @@ instance = coroapi.Corona()
 usa_infected_people = instance.get_country_infected('usa', text=False)
 print(usa_infected_people)
 
-<< 1802086
+<< ['1802086']
 
 israel_total_deathes = instance.get_country_deathes('israel', text=True)
 print(israel_total_deathes)
 
-<< Deaths: 284
+<< {'Deaths': '284'}
+
+highest_country_cases = instance.get_rank_by_country('usa', text=False)
+print(highest_country_cases)
+
+<< ['1']
 ```
 
 > If there's any problem, Please let me know - roeil4939@gmail.com
