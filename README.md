@@ -40,7 +40,7 @@ print(usa_infected_people)
 
 << ['1802086']
 
-israel_total_deathes = instance.get_country_deathes('israel', text=True)
+israel_total_deathes = instance.get_country_deaths('israel', text=True)
 print(israel_total_deathes)
 
 << {'Deaths': '284'}
