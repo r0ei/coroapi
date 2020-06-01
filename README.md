@@ -22,6 +22,8 @@ Currently only 2 data-sources is available to retrieve the data:
 ## Installation
 - `pip install coroapi`
 1. Make sure you have [python3 installed and on your PATH](https://docs.python-guide.org/starting/installation/)
+When there's new release, you need to update the package
+- `pip install coroapi --upgrade`
 
 ## Simple Usage
 
