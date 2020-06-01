@@ -20,7 +20,7 @@ Currently only 2 data-sources is available to retrieve the data:
 - A lot of supported countries (up to 100)
 
 ## Installation
-**Make sure you have [python3 installed and on your PATH]**(https://docs.python-guide.org/starting/installation/)
+**Make sure you have** [python3 installed and on your PATH](https://docs.python-guide.org/starting/installation/)
 - `pip install coroapi`
 
 **When there's new release, you need to update the package**
