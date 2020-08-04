@@ -17,4 +17,4 @@ Please do not use the question template to report bugs or to request new feature
   
 ## Your question
 
-*Ask the question you have not been able to find an answer in our [Documentation](https://www.freqtrade.io/en/latest/)*
+*You can send a mail to me at: roeil4939@gmail.com*
