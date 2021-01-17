@@ -1,159 +1,69 @@
 import requests
 import json
-from datetime import datetime
 from bs4 import BeautifulSoup
+from typing import Union, Optional
 
 class Corona:
     def __init__(self):
-        self.date = datetime.now()
-        self.countries = ["usa", "brazil", "russia", "spain", "uk", "italy", "france", "germany", "india", "turkey", "iran",
-                 "peru", "chile", "canada", "mexico", "saudi-arabia", "pakistan", "belgium", "qatar", "netherlands",
-                 "bangladesh", "belarus", "ecuador", "sweden", "singapore", "portugal", "switzerland",
-                 "south-africa", "colombia", "kuwait", "indonesia", "ireland", "poland", "ukraine", "egypt", "romania",
-                 "philippines",  "israel", "japan", "austria", "dominican-republic", "argentina", "afghanistan", "panama",
-                 "denmark","south-korea","serbia","bahrain","oman","kazakhstan","nigeria","czech-republic","algeria", "armenia",
-                 "bolivia","norway","moldova","ghana","malaysia","morocco","australia","finland", "iraq","cameroon","azerbaijan",
-                 "honduras","guatemala","sudan","luxembourg","hungary","tajikistan","guinea","senegal","uzbekistan","djibouti",
-                 "thailand","greece","gabon","bulgaria", "bosnia-and-herzegovina",
-                 "el-salvador","croatia","cuba","estonia","somalia","iceland", "kenya","kyrgyzstan","mayotte","lithuania",
-                 "maldives","haiti","sri-lanka","slovakia","new-zealand","slovenia","nepal","venezuela","equatorial-guinea","guinea-bissau",
-                 "mali","lebanon","albania","tunisia","latvia","ethiopia","zambia","costa-rica","south-sudan","niger",
-                 "cyprus","paraguay","central-african-republic","sierra-leone","burkina-faso","uruguay","andorra","chad","nicaragua","madagascar",
-                 "georgia","jordan","san-marino","malta","jamaica","congo","channel-islands","tanzania","reunion","french-guiana",
-                 "taiwan","togo","mauritania","rwanda","isle-of-man","mauritius","uganda","vietnam","montenegro",
-                 "yemen","liberia","malawi","mozambique","myanmar","benin","martinique","mongolia","gibraltar","guadeloupe",
-                 "zimbabwe","guyana", "cayman-islands","bermuda","cambodia","syria","libya","trinidad-and-tobago","bahamas",
-                 "aruba","monaco","barbados","comoros","liechtenstein","angola","sint-maarten","french-polynesia","burundi",
-                 "saint-martin","eritrea","botswana","bhutan", "saint-vincent-and-the-grenadines","antigua-and-barbuda","gambia","timor-leste",
-                 "grenada","namibia", "new-caledonia","belize","curacao","fiji","saint-lucia", "dominica","saint-kitts-and-nevis",
-                 "greenland","suriname", "montserrat","seychelles","western-sahara","british-virgin-islands","papua-new-guinea",
-                 "caribbean-netherlands", "anguilla","lesotho", "china"]
-        self.author = 'Roi Levi'
+        self.countries = json.dumps(json.loads(open("../data/countries.json").read()), indent=4, sort_keys=True)
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
+        self.country, self.rank = None, None # temporary variables used by country_by_rank and rank_by_country
 
-    def get_all_country_stats(self, country, text=True):
-        """
-        Get country statistics, include infected amount, deaths amount, recovered amount and country's rank
-        """
-        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-        if country in self.countries:
-            resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=headers)
-            if resp.status_code == 200:
-                soup = BeautifulSoup(resp.content, 'html.parser')
-                body = soup.find('tbody').find('tr', {'onclick': f"window.location='coronavirus/{country}';"}).findAll('td')
-                infected = body[1].text
-                deaths = body[2].text
-                recovered = body[3].text
-                if not text:
-                    return [infected, deaths, recovered, ''.join(self.get_rank_by_country(country, text=False))]
-                return {'Infected': infected, 'Deaths': deaths, 'Recovered': recovered, 'Rank': ''.join(self.get_rank_by_country(country, text=False))}
-            return False
-        else:
-            raise ValueError(f'{country} is not supported, or not valid code-name. Please use only lower case names!')
+    def country_stats(self, country: str, infected: Optional[bool] = True, deaths: Optional[bool] = True, recovered: Optional[bool] = True, country_rank: Optional[bool] = True, text: Optional[bool] = True) -> Union[bool, list, dict]:
+        resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=self.headers)
+        if resp.status_code == 200:
+            body = BeautifulSoup(resp.content, 'html.parser').find('tbody').find('tr', {'onclick': f"window.location='coronavirus/{country}';"}).findAll('td')
+            infected_data, deaths_data, recovered_data = body[1].text, body[2].text, body[3].text
 
-    def get_global_stats(self, text=True):
+            if not text:
+                return [infected_data if infected else None, deaths_data if deaths else None, recovered_data.strip() if recovered else None, ''.join(self.rank_by_country(country, text=False)) if country_rank else None]
+            return {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data.strip(), 'Rank': ''.join(self.rank_by_country(country, text=False))}
+        return False
+
+    def global_stats(self, text: Optional[bool] = True) -> Union[bool, list, dict]:
         """
         Get global statistics, include infected amount, deaths amount, recovered amount and the country that have the highest amount of total cases
         """
-        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-        resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=headers)
+        resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=self.headers)
         if resp.status_code == 200:
-            soup = BeautifulSoup(resp.content, 'html.parser')
-            body = soup.find('div', class_='row')
+            body = BeautifulSoup(resp.content, 'html.parser').find('div', class_='row')
+
             infected = body.find('div').find('div', class_='card-body').find('span', class_='h5 card-title').text
             deaths = body.find('div', class_='card text-white col-md-3 ml-auto mr-auto mb-2').find('div').find('span', class_='h5 card-title').text.split()[0]
             recovered = body.findAll('div', class_='card text-center text-white col-md-3 ml-auto mr-auto mb-2')[1].find('div').find('span', class_='h5 card-title').text.split()[0]
+
             if not text:
-                return [infected, deaths, recovered, ''.join(self.get_country_by_rank('1', text=False))]
-            return {'Infected': infected, 'Deaths': deaths, 'Recovered': recovered, 'Highest Cases': ''.join(self.get_country_by_rank('1', text=False))}
+                return [infected, deaths, recovered, ''.join(self.country_by_rank('1', text=False))]
+            return {'Infected': infected, 'Deaths': deaths, 'Recovered': recovered, 'Highest Cases': ''.join(self.country_by_rank('1', text=False))}
         return False
 
-    def get_country_infected(self, country, text=True):
-        """
-        Total amount of infected people cases in a country
-        """
-        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-        if country in self.countries:
-            resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=headers)
-            if resp.status_code == 200:
-                soup = BeautifulSoup(resp.content, 'html.parser')
-                body = soup.find('tbody').find('tr', {'onclick': f"window.location='coronavirus/{country}';"}).findAll('td')
-                infected = body[1].text
-                if not text:
-                    return [infected]
-                return {'Infected': infected}
-            return False
-        else:
-            raise ValueError(f'{country} is not supported, or not valid code-name. Please use only lower case names!')
-
-    def get_country_deaths(self, country, text=True):
-        """
-        Total amount of deaths cases in a country
-        """
-        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-        if country in self.countries:
-            resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=headers)
-            if resp.status_code == 200:
-                soup = BeautifulSoup(resp.content, 'html.parser')
-                body = soup.find('tbody').find('tr', {'onclick': f"window.location='coronavirus/{country}';"}).findAll('td')
-                deaths = body[2].text
-                if not text:
-                    return [deaths]
-                return {'Deaths': deaths}
-            return False
-        else:
-            raise ValueError(f'{country} is not supported, or not valid code-name. Please use only lower case names!')
-    
-    def get_country_recovered(self, country, text=True):
-        """
-        Total amount of recovered cases in a country
-        """
-        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-        if country in self.countries:
-            resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=headers)
-            if resp.status_code == 200:
-                soup = BeautifulSoup(resp.content, 'html.parser')
-                body = soup.find('tbody').find('tr', {'onclick': f"window.location='coronavirus/{country}';"}).findAll('td')
-                recovered = body[3].text
-                if not text:
-                    return [recovered]
-                return {'Recovered': recovered}
-            return False
-        else:
-            raise ValueError(f'{country} is not supported, or not valid code-name. Please use only lower case names!')
-
-    def get_rank_by_country(self, country, text=True):
-        """
-        The rank is based on the amount of total cases in the country
-        """
-        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-        if country in self.countries:
-            resp = requests.get('https://virusncov.com/', headers=headers)
-            if resp.status_code == 200:
-                soup = BeautifulSoup(resp.content, 'html.parser')
-                rank = None
-                for country_ in soup.find('tbody').findAll('tr'):
-                    if country_.find('a', href=True)['href'] == f'/covid-statistics/{country}':
-                        rank = country_.find('td').text
-                if not text:
-                    return [rank]
-                return {'Rank': rank}
-            return False
-        else:
-            raise ValueError(f'{country} is not supported, or not valid code-name. Please use only lower case names!')
-
-    def get_country_by_rank(self, rank, text=True):
-        """
-        The rank is based on the amount of total cases in the country
-        """
-        headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-        resp = requests.get('https://virusncov.com/', headers=headers)
+    def rank_by_country(self, country: str, text: Optional[bool] = True) -> Union[bool, list, dict]:
+        resp = requests.get('https://virusncov.com/', headers=self.headers)
         if resp.status_code == 200:
             soup = BeautifulSoup(resp.content, 'html.parser')
-            country = None
+
+            for country_ in soup.find('tbody').findAll('tr'):
+                if country_.find('a', href=True)['href'] == f'/covid-statistics/{country}':
+                    rank = country_.find('td').text
+
+            return [rank] if not text else {'Rank': rank}
+        return False
+
+    def country_by_rank(self, rank: str, text: Optional[bool] = True) -> Union[bool, list, dict]:
+        resp = requests.get('https://virusncov.com/', headers=self.headers)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.content, 'html.parser')
+
             for country_ in soup.find('tbody').findAll('tr'):
                 if country_.find('td').text == rank:
-                    country = country_.find('a', href=True)['href'].split('/')[2]
-            if not text:
-                return [country]
-            return {'Country': country}
-        return False
+                    self.country = country_.find('a', href=True)['href'].split('/')[2]
+
+            return [self.country] if not text else {'Country': self.country}
+        return False # return False if status code != OK (200)
+    
+    def is_country_valid(self, country: str) -> bool:
+        return True if country in self.countries else False
+
+if __name__ == "__main__":
+    instance = Corona()
+    print(instance.country_stats("usa", text=False, infected=False))
