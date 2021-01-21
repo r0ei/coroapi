@@ -1,5 +1,6 @@
 import requests
 import json
+import numpy as np
 from bs4 import BeautifulSoup
 from typing import Union, Optional
 
@@ -14,10 +15,11 @@ class Corona:
         if resp.status_code == 200:
             body = BeautifulSoup(resp.content, 'html.parser').find('tbody').find('tr', {'onclick': f"window.location='coronavirus/{country}';"}).findAll('td')
             infected_data, deaths_data, recovered_data = body[1].text, body[2].text, body[3].text
+            country_rank_data = ''.join(self.rank_by_country(country, text=False))
 
             if not text:
-                return [infected_data if infected else None, deaths_data if deaths else None, recovered_data.strip() if recovered else None, ''.join(self.rank_by_country(country, text=False)) if country_rank else None]
-            return {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data.strip(), 'Rank': ''.join(self.rank_by_country(country, text=False))}
+                return np.array([infected_data, deaths_data, recovered_data.strip(), country_rank_data])[[infected, deaths, recovered, country_rank]].tolist()
+            return {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data.strip(), 'Rank': country_rank_data} # to be fixed
         return False
 
     def global_stats(self, text: Optional[bool] = True) -> Union[bool, list, dict]:
@@ -66,4 +68,4 @@ class Corona:
 
 if __name__ == "__main__":
     instance = Corona()
-    print(instance.country_stats("usa", text=False, infected=False))
+    print(instance.country_stats("usa", text=False, infected=False, deaths=False))
