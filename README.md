@@ -1,5 +1,9 @@
    # Covid-19 Tracker API :microbe:
 
+*****
+**coroapi is not available for download right now because of updates, it will take some time until I reupload and finish the code editing. Huge update is coming, below text isn't up to date, yet.**
+
+*****
 Provides up-to-date data about Coronavirus outbreak. Includes numbers about confirmed cases, deaths and recovered.
 
 ## Available data-sources:

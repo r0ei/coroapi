@@ -65,7 +65,3 @@ class Corona:
     
     def is_country_valid(self, country: str) -> bool:
         return True if country in self.countries else False
-
-if __name__ == "__main__":
-    instance = Corona()
-    print(instance.country_stats("usa", text=False, infected=False, deaths=False))
