@@ -16,6 +16,6 @@ setup(
 	install_requires=[
           'requests',
           'beautifulsoup4',
-		  'numpy'
+	  'numpy',
       ]
 )
