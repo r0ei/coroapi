@@ -22,21 +22,21 @@ class Corona:
             return {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data.strip(), 'Rank': country_rank_data} # to be fixed
         return False
 
-    def global_stats(self, text: Optional[bool] = True) -> Union[bool, list, dict]:
+    def global_stats(self, text: Optional[bool] = True, infected: Optional[bool] = True, deaths: Optional[bool] = True, recovered: Optional[bool] = True, rank_country: Optional[bool] = True) -> Union[bool, list, dict]:
         """
         Get global statistics, include infected amount, deaths amount, recovered amount and the country that have the highest amount of total cases
         """
         resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=self.headers)
         if resp.status_code == 200:
             body = BeautifulSoup(resp.content, 'html.parser').find('div', class_='row')
-
-            infected = body.find('div').find('div', class_='card-body').find('span', class_='h5 card-title').text
-            deaths = body.find('div', class_='card text-white col-md-3 ml-auto mr-auto mb-2').find('div').find('span', class_='h5 card-title').text.split()[0]
-            recovered = body.findAll('div', class_='card text-center text-white col-md-3 ml-auto mr-auto mb-2')[1].find('div').find('span', class_='h5 card-title').text.split()[0]
+            infected_data = body.find('div').find('div', class_='card-body').find('span', class_='h5 card-title').text
+            deaths_data = body.find('div', class_='card text-white col-md-3 ml-auto mr-auto mb-2').find('div').find('span', class_='h5 card-title').text.split()[0]
+            recovered_data = body.findAll('div', class_='card text-center text-white col-md-3 ml-auto mr-auto mb-2')[1].find('div').find('span', class_='h5 card-title').text.split()[0]
+            rank_country_data = ''.join(self.country_by_rank('1', text=False))
 
             if not text:
-                return [infected, deaths, recovered, ''.join(self.country_by_rank('1', text=False))]
-            return {'Infected': infected, 'Deaths': deaths, 'Recovered': recovered, 'Highest Cases': ''.join(self.country_by_rank('1', text=False))}
+                return np.array([infected_data, deaths_data, recovered_data.strip(), rank_country_data])[[infected, deaths, recovered, rank_country]].tolist()
+            return {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data, 'Highest Cases': rank_country_data}
         return False
 
     def rank_by_country(self, country: str, text: Optional[bool] = True) -> Union[bool, list, dict]:
