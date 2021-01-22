@@ -4,7 +4,7 @@ with open('README.md', 'r') as f:
 	long_description = f.read()
 	
 setup(
-	name='coroapi',
+	name='coroapi_corona',
 	version='2.0',
 	author='Roi Levi',
 	author_email='roeil4939@gmail.com',
