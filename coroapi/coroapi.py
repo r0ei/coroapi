@@ -19,13 +19,11 @@ class Corona:
 
             if not text:
                 return np.array([infected_data, deaths_data, recovered_data.strip(), country_rank_data])[[infected, deaths, recovered, country_rank]].tolist()
-            return {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data.strip(), 'Rank': country_rank_data} # to be fixed
+            d = {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data.strip(), 'Rank': country_rank_data}
+            return dict(np.array(list(d.items()))[[infected, deaths, recovered, country_rank]])
         return False
 
     def global_stats(self, text: Optional[bool] = True, infected: Optional[bool] = True, deaths: Optional[bool] = True, recovered: Optional[bool] = True, rank_country: Optional[bool] = True) -> Union[bool, list, dict]:
-        """
-        Get global statistics, include infected amount, deaths amount, recovered amount and the country that have the highest amount of total cases
-        """
         resp = requests.get('https://epidemic-stats.com/coronavirus/', headers=self.headers)
         if resp.status_code == 200:
             body = BeautifulSoup(resp.content, 'html.parser').find('div', class_='row')
@@ -36,7 +34,8 @@ class Corona:
 
             if not text:
                 return np.array([infected_data, deaths_data, recovered_data.strip(), rank_country_data])[[infected, deaths, recovered, rank_country]].tolist()
-            return {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data, 'Highest Cases': rank_country_data}
+            d = {'Infected': infected_data, 'Deaths': deaths_data, 'Recovered': recovered_data, 'Highest Cases': rank_country_data}
+            return dict(np.array(list(d.items()))[[infected, deaths, recovered, rank_country]])
         return False
 
     def rank_by_country(self, country: str, text: Optional[bool] = True) -> Union[bool, list, dict]:
