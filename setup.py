@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 	
 setup(
 	name='coroapi',
-	version='1.0',
+	version='2.0',
 	author='Roi Levi',
 	author_email='roeil4939@gmail.com',
 	description='coroapi is fast and up-to-date Covid-19 API',
