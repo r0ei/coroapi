@@ -14,6 +14,7 @@ setup(
 	url='https://github.com/r0ei/coroapi',
 	packages=find_packages(),
 	package_data={'.': ['countries.json']},
+	data_files=[('coroapi', ['coroapi/*.json'])],
 	include_package_data=True,
 	install_requires=[
         'requests',
