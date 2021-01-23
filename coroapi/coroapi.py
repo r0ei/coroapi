@@ -1,12 +1,13 @@
 import requests
 import json
+import pkg_resources
 import numpy as np
 from bs4 import BeautifulSoup
 from typing import Union, Optional
 
 class Corona:
     def __init__(self):
-        self.countries = json.dumps(json.loads(open("countries.json").read()), indent=4, sort_keys=True)
+        self.countries = json.dumps(json.loads(open(pkg_resources.resource_filename("coroapi", "countries.json")).read()), indent=4, sort_keys=True)
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
         self.country, self.rank = None, None # temporary variables used by country_by_rank and rank_by_country
 
