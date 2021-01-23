@@ -13,7 +13,7 @@ setup(
 	long_description_content_type='text/markdown',
 	url='https://github.com/r0ei/coroapi',
 	packages=find_packages(),
-	package_data={'coroapi': ['countries.json']},
+	package_data={'.': ['countries.json']},
 	include_package_data=True,
 	install_requires=[
         'requests',
