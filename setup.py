@@ -4,7 +4,7 @@ with open('README.md', 'r') as f:
 	long_description = f.read()
 	
 setup(
-	name='coro__api',
+	name='coroapi',
 	version='1.0',
 	author='Roi Levi',
 	author_email='roeil4939@gmail.com',
