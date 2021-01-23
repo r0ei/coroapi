@@ -19,10 +19,10 @@ Currently only 2 data-sources is available to retrieve the data:
 - A lot of supported countries (up to 100)
 
 ## Installation
-- `pip3 install coroapi`
+- `pip3 install covid-api`
 
 **When there's new release, you need to update the package**
-- `pip3 install coroapi --upgrade`
+- `pip3 install covid-api==1.0 --upgrade`
 
 ## Simple Usage
 
