@@ -4,7 +4,7 @@ with open('README.md', 'r') as f:
 	long_description = f.read()
 	
 setup(
-	name='coroapi',
+	name='covid-api',
 	version='1.0',
 	author='Roi Levi',
 	author_email='roeil4939@gmail.com',
@@ -14,7 +14,6 @@ setup(
 	url='https://github.com/r0ei/coroapi',
 	packages=find_packages(),
 	package_data={'coroapi': ['countries.json']},
-	data_files=[('coroapi', ['coroapi/*.json'])],
 	include_package_data=True,
 	install_requires=[
         'requests',
