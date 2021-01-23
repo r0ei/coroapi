@@ -4,7 +4,7 @@ with open('README.md', 'r') as f:
 	long_description = f.read()
 	
 setup(
-	name='coro_api',
+	name='coro__api',
 	version='1.0',
 	author='Roi Levi',
 	author_email='roeil4939@gmail.com',
@@ -13,7 +13,7 @@ setup(
 	long_description_content_type='text/markdown',
 	url='https://github.com/r0ei/coroapi',
 	packages=find_packages(),
-	package_data={'coroapi': ['../data/countries.json']},
+	package_data={'coroapi': ['countries.json']},
 	include_package_data=True,
 	install_requires=[
         'requests',
